@@ -38,25 +38,36 @@ class window.Hand extends Backbone.Collection
     # show hand
     @models[0].flip()
     subroutine = ->
-      if @minScore() < 17
-        # we hit()
-        @add(@deck.pop())
-        # @last()
-        setTimeout(subroutine.bind(@), 1000)
-        return
-      # else
-      else # >17
-        # stop and check but
-        alert('Dealer Busted!') if @minScore() > 21
+      # scores = @scores
+
+      # has no ace
+        if @minScore() < 17
+          # we hit()
+          @add(@deck.pop())
+          # @last()
+          setTimeout(subroutine.bind(@), 1000)
+          return
+        # else
+        else if @minScore() > 21
+          # stop and check but
+          @.trigger('dealerBusted', @)
+        else
+          @.trigger('dealerDone', @)
+
+      # else if hand has ace then check max
+        # if max is bust and min < 17
+          # hit
+        # if min between 17 and 21
+          # stop
+
+
+
+
+
     subroutine.bind(@)()
-    return  
+    return
   
-
-
-
-
-    # check again (because response should be instantaneous. e.g. bust). 
-    # if true, call dealerBegin() in 1000 ms. If false, give appropriate response
-
-
-
+  bestScore: ->
+    scores = @scores()
+    return if ( scores[1] != 0 and scores[1] <= 21 ) then scores[1] else scores[0]
+    

@@ -13,9 +13,29 @@ class window.App extends Backbone.Model
     @get 'playerHand' 
       .on 'dealerBegin', (-> 
         dealerHand.dealerBegin()
-        return) , @
-    return
+        return), @
     
-    # this.get('dealerHand').on('filler', function(){ }, this)
+    @get 'playerHand'
+      .on 'playerBusted', (->
+        alert('you lose!')
+        return), @
+
+    @get 'dealerHand'
+      .on 'dealerBusted', (->
+        alert('you win!')
+        return), @
+
+    @get 'dealerHand'
+      .on 'dealerDone', (->
+        console.log('scores', playerHand.bestScore())
+        debugger
+        if playerHand.bestScore() > dealerHand.bestScore()
+          alert('you win!')
+        else if playerHand.bestScore() == dealerHand.bestScore()
+          alert('draw')
+        else alert('you lose!')
+        return), @
+
+    return
 
 
