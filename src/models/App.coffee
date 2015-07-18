@@ -5,4 +5,17 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    
+    playerHand = @get('playerHand')
+    dealerHand = @get('dealerHand')
+
+    # func: when player clicks 'stand', we detect the trigger, and set off the dealer
+    @get 'playerHand' 
+      .on 'dealerBegin', (-> 
+        dealerHand.dealerBegin()
+        return) , @
+    return
+    
+    # this.get('dealerHand').on('filler', function(){ }, this)
+
 
