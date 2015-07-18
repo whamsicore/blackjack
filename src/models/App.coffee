@@ -11,8 +11,8 @@ class window.App extends Backbone.Model
 
     # func: when player clicks 'stand', we detect the trigger, and set off the dealer
     @get 'playerHand' 
-      .on 'dealerBegin', (-> 
-        dealerHand.dealerBegin()
+      .on 'dealerPlay', (-> 
+        dealerHand.dealerPlay()
         return), @
     
     @get 'playerHand'
@@ -27,8 +27,7 @@ class window.App extends Backbone.Model
 
     @get 'dealerHand'
       .on 'dealerDone', (->
-        console.log('scores', playerHand.bestScore())
-        debugger
+        # console.log('scores', playerHand.bestScore())
         if playerHand.bestScore() > dealerHand.bestScore()
           alert('you win!')
         else if playerHand.bestScore() == dealerHand.bestScore()
