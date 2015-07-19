@@ -9,7 +9,6 @@ class window.App extends Backbone.Model
     playerHand = @get('playerHand')
     dealerHand = @get('dealerHand')
 
-    # func: when player clicks 'stand', we detect the trigger, and set off the dealer
     @get 'playerHand' 
       .on 'dealerPlay', (-> 
         dealerHand.dealerPlay()
@@ -17,23 +16,40 @@ class window.App extends Backbone.Model
     
     @get 'playerHand'
       .on 'playerBusted', (->
-        alert('you lose!')
-        return), @
-
+        prompt = confirm('You lose! Play again?')
+        if prompt
+          @reset()
+        return
+      ), @
+      
     @get 'dealerHand'
       .on 'dealerBusted', (->
-        alert('you win!')
-        return), @
+        prompt = confirm('You win! Play again?')
+        if prompt
+          @reset()
+        return
+      ), @
 
     @get 'dealerHand'
       .on 'dealerDone', (->
-        # console.log('scores', playerHand.bestScore())
         if playerHand.bestScore() > dealerHand.bestScore()
-          alert('you win!')
+          prompt = confirm('You win! Play again?')
+          if prompt
+            @reset()
+
         else if playerHand.bestScore() == dealerHand.bestScore()
-          alert('draw')
-        else alert('you lose!')
+          prompt = confirm('Draw! Play again?')
+          if prompt
+            @reset()
+
+        else 
+          prompt = confirm('You lose! Play again?')
+          if prompt
+            @reset()
         return), @
+  reset: ->
+    $('body').html('');
+    new AppView(model: new App()).$el.appendTo 'body'
 
     return
 

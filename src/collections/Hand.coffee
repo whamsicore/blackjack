@@ -4,7 +4,7 @@ class window.Hand extends Backbone.Collection
   initialize: (array, @deck, @isDealer, @dealerReveal) -> 
 
   hit: ->
-    if @minScore() < 21 # we busted!
+    if @minScore() < 21
       @add(@deck.pop()) #add new card to hand
       if @minScore()>21
         @.trigger('playerBusted', @)
@@ -37,16 +37,9 @@ class window.Hand extends Backbone.Collection
       return
     ).bind(@), 1000
 
-    # (blah) -> 
-    #   this.return
-    #   return
-
     dealerHit = ()->
-      # debugger
       bestScore = @bestScore()
-
-      if bestScore > 21
-        @trigger('dealerBusted', @)
+pllplp        @trigger('dealerBusted', @)
       else if bestScore >= 17
         @trigger('dealerDone', @)
       else # less than sweet spot
@@ -54,36 +47,7 @@ class window.Hand extends Backbone.Collection
         setTimeout ( ->
           dealerHit.bind(@)()
           return
-        ).bind(@), 1000 
-      # console.log(scores, id)
-      # if id == 'max'
-      #   score = scores[1]
-      # else score = scores[0]
-      # test = (score)->
-      #   console.log(score)
-      #   if score > 21
-      #     if id == 'max'
-      #       console.log('recurse')
-      #       dealerHit.bind(@)(scores, 'min')
-      #     else
-      #       console.log('dealer busted')
-      #       @.trigger('dealerBusted', @)
-      #   else if score >= 17 and score <= 21
-      #     console.log('done compare scores')
-      #     @.trigger('dealerDone', @)
-      #   else if score < 17
-      #     console.log('dealer hits')
-      #     dealerHit.bind(@)(scores, 'max')
-      #     @add(@deck.pop())
-      # test.bind(@)(score)
-    
-    # dealerHit.bind(@)(@scores(), 'max')
-    # if @hasAce()
-    #   console.log('has ace')
-    #   dealerHit.bind(@)(@scores(), 'max')
-    # else
-    #   console.log('no ace')
-    #   dealerHit.bind(@)(@scores(), 'min')
+        ).bind(@), 1000
   
   bestScore: ->
     scores = @scores()
